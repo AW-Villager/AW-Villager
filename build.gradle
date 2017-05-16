@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+    	mavenCentral()
+        maven {
+            //url uri('../VillagerGradle/build/maven')
+            url uri('https://aitech.ac.jp/maslab/~k14048kk/maven')
+
+        }
+
+    }
+    dependencies {
+        classpath group: 'awvillager', name: 'villagergradle',
+                  version: '0.1-SNAPSHOT'
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'awvillager.gradle'
+
+archivesBaseName = 'awvillager'
+group = 'awvillager'
+version = '0.0.1'
+
+
+aiwolf {
+	version = '0.4.5-0.0.1';
+}
+
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+        	if (project.hasProperty('mavenfolder')) {
+                repository(url: uri(project.mavenfolder))
+            }else{
+            	repository(url: "file://$buildDir/maven")
+                //repository(url: uri('/docs/maven'))
+            }
+
+        }
+    }
+}
