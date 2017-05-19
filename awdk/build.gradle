@@ -1,0 +1,38 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            url uri('https://aitech.ac.jp/maslab/~k14048kk/maven')
+        }
+    }
+    dependencies {
+        classpath 'awvillager:villagergradle:0.1-SNAPSHOT'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'awvillager.gradle'
+
+//プロジェクトの設定
+group = 'com.yourname.agentid'
+archivesBaseName = 'agentid'
+version = '1.0.0'
+
+//このセクションでは、AIWolfについての設定をします
+aiwolf {
+
+	// {AIWolfのバージョン}-{AWVillagerのバージョン}
+	version = '0.4.5-0.0.1';
+
+}
+
+// このセクションでは、プロジェクトの依存関係を見つける場所を宣言します
+repositories {
+
+}
+
+// このセクションでは、プロダクションとテストコードの依存関係を宣言します
+dependencies {
+
+}
+
