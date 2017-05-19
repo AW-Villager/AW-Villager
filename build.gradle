@@ -22,7 +22,7 @@ version = '0.1.0'
 
 
 aiwolf {
-	version = '0.4.5-0.0.1';
+	version = '0.4.5-0.1.0';
 }
 
 
@@ -39,3 +39,15 @@ uploadArchives {
         }
     }
 }
+
+//AWDK関係
+task zipAWDK(type: Zip) {
+
+    // zip ファイル名の変更
+    archiveName = "awdk_${version}.zip"
+
+    // (a) awdk 内のファイルを zip のルートへ配置
+    from 'awdk'
+
+}
+
