@@ -13,29 +13,62 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin : 'maven-publish'
+//apply plugin: 'maven'
 apply plugin: 'awvillager.gradle'
 
 group = 'awvillager'
 archivesBaseName = 'awvillager'
-version = '0.1.0'
+version = '0.1.3-SNAPSHOT'
 
 
 aiwolf {
-	version = '0.4.5-0.1.0';
+	version = '0.4.5_0.1.3-SNAPSHOT';
 }
 
+repositories {
+    mavenCentral()
+    //jcenter()
 
-uploadArchives {
+}
+
+//uploadArchives {
+/*
+publishing {
     repositories {
-        mavenDeployer {
+    //repositories {
+    	maven {
+
+        //mavenDeployer {
         	if (project.hasProperty('mavenfolder')) {
-                repository(url: uri(project.mavenfolder))
+                //repository(url: uri(project.mavenfolder))
+                url project.mavenfolder
             }else{
-            	repository(url: "file://$buildDir/maven")
+            	//repository(url: "file://$buildDir/maven")
                 //repository(url: uri('/docs/maven'))
             }
 
+        }
+    }
+}*/
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+        	artifactId "${archivesBaseName}"
+            from components.java
+        }
+    }
+}
+publishing {
+    repositories {
+        maven {
+            // change to point to your repo, e.g. http://my.org/repo
+            if (project.hasProperty('mavenfolder')) {
+            	url project.mavenfolder
+            }else{
+            	url "file://$buildDir/maven"
+                //repository(url: uri('/docs/maven'))
+            }
         }
     }
 }
