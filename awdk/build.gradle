@@ -2,7 +2,7 @@ buildscript {
     repositories {
         mavenCentral()
         maven {
-            url uri('https://aitech.ac.jp/maslab/~k14048kk/maven')
+            url uri('https://maslab.aitech.ac.jp/~k14048kk/maven')
         }
     }
     dependencies {

@@ -3,9 +3,11 @@ package awvillager.ui.parts;
 import java.awt.Component;
 import java.util.Vector;
 
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
+import javax.swing.border.EmptyBorder;
 
 public class ZebraJList<E> extends javax.swing.JList<E> {
     private java.awt.Color rowColors[] = new java.awt.Color[2];
@@ -90,6 +92,11 @@ public class ZebraJList<E> extends javax.swing.JList<E> {
                     list, value, index, isSelected, cellHasFocus);
             if (!isSelected && drawStripes)
                 c.setBackground(rowColors[index & 1]);
+
+            JLabel jl = (JLabel) c;
+            jl.setBorder(new EmptyBorder(2, 14, 2, 0));
+
+
             return c;
 
         }

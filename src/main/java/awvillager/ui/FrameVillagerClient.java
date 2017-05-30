@@ -7,36 +7,39 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import awvillager.ui.component.ComponentAddAgent;
-import awvillager.ui.component.ComponentConnectAgentList;
 import awvillager.ui.component.ComponentStatus;
 import awvillager.ui.component.ToolBarVillagerClient;
+import awvillager.ui.panel.LogPanel;
+import awvillager.ui.panel.MainPanel;
+import awvillager.ui.util.DragListener;
 
 public class FrameVillagerClient extends JFrame {
 
     JPanel containerPanel;
-    JPanel mainPanel;
 
-    ComponentAddAgent componentAddAgent;
-    ComponentConnectAgentList componentAgentList;
+    //Mainパネル
+    public MainPanel mainPanel;
+
+    public LogPanel logPanel;
+
+    JPanel currentPanel;
+
     ComponentStatus componentStatus;
 
     public FrameVillagerClient(){
         super();
         this.setTitle("VillagerClient");
-        this.setSize(800, 640);
+        this.setSize(600, 680);
 
         //this.getRootPane().setBorder(new EmptyBorder(0, 0, 8, 0));
 
-
-
         this.getRootPane().putClientProperty("apple.awt.brushMetalLook", true);
-        this.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", true);
+        //this.getRootPane().putClientProperty("apple.awt.draggableWindowBackground", true);
+
+        this.getRootPane().setOpaque(false);
 
         //this.setBackground(new Color(236, 236, 236));
 
@@ -60,10 +63,11 @@ public class FrameVillagerClient extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //toolbarの追加
-        ToolBarVillagerClient toolbar = new ToolBarVillagerClient();
-        //DragListener drag = new DragListener(this,toolbar);
-        //toolbar.addMouseListener( drag );
-        //toolbar.addMouseMotionListener( drag );
+        Log.LOGGER.info("init : Toolbar");
+        ToolBarVillagerClient toolbar = new ToolBarVillagerClient(this);
+        DragListener drag = new DragListener(this,toolbar);
+        toolbar.addMouseListener( drag );
+        toolbar.addMouseMotionListener( drag );
         //toolbar.putClientProperty("apple.awt.draggableWindowBackground", true);
         this.add(toolbar, BorderLayout.NORTH);
 
@@ -73,37 +77,21 @@ public class FrameVillagerClient extends JFrame {
         containerPanel.setLayout(new GridLayout(1, 1, 0, 0));
         containerPanel.setBackground(new Color(236, 236, 236));
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(179, 177, 179)));
+        //Mainパネル
+        Log.LOGGER.info("init : MainPanel");
+        mainPanel = new MainPanel();
 
+        Log.LOGGER.info("init : LogPanel");
+        logPanel = new LogPanel();
+
+        currentPanel = mainPanel;
         containerPanel.add(mainPanel);
-
-        //componentを追加していく
-        componentAddAgent = new ComponentAddAgent();
-        mainPanel.add(componentAddAgent);
-
-        //mainPanel.add(new JPanel());
-
-        /*JSeparator sp = new JSeparator(JSeparator.HORIZONTAL);
-        mainPanel.add(sp);
-        Dimension d = sp.getPreferredSize();
-        d.width = sp.getMaximumSize().width;
-        sp.setMaximumSize( d );*/
-
-
-        componentAgentList = new ComponentConnectAgentList();
-        mainPanel.add(componentAgentList);
-
-        //JTabbedPane tabs = new JTabbedPane( );
-        //tabs.addTab( "Main", mainPanel);
-        //tabs.addTab( "Log", new JPanel() );
-        //add(tabs, BorderLayout.CENTER);
 
         add(containerPanel, BorderLayout.CENTER);
         //setLayout(new BorderLayout());
         //add(new PaintPane());
 
+        Log.LOGGER.info("init : ComponentStatus");
         componentStatus = new ComponentStatus();
         add(componentStatus, BorderLayout.SOUTH);
 
@@ -117,6 +105,30 @@ public class FrameVillagerClient extends JFrame {
     }
 
 
+    public void addMessage(String m){
+        this.mainPanel.componentAgentList.addMessage(m);
+    }
+
+    public void changeMainPanel(JPanel setPanel){
+
+
+        if(setPanel == logPanel){
+            containerPanel.remove(currentPanel);
+            currentPanel = logPanel;
+            containerPanel.add(currentPanel);
+            //containerPanel.repaint();
+            printAll(getGraphics());
+
+        }else if(setPanel == mainPanel){
+            containerPanel.remove(currentPanel);
+            currentPanel = mainPanel;
+            containerPanel.add(currentPanel);
+            //containerPanel.repaint();
+            printAll(getGraphics());
+
+        }
+
+    }
 
     /*
     @Override

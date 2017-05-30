@@ -21,6 +21,8 @@ public class ComponentStatus extends JPanel{
     public ComponentStatus(){
         this.setPreferredSize(new Dimension(-1, 26));
 
+        this.setOpaque(false);
+
         //this.setBackground(new Color(236, 236, 236));
 
         //this.setBackground(null);

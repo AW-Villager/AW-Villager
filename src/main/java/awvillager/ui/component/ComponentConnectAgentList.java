@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
@@ -15,6 +16,9 @@ public class ComponentConnectAgentList  extends JPanel{
     protected JPanel panel;
 
     protected TitledBorder border;
+
+    protected DefaultListModel<String> list;
+    protected ZebraJList<String> zl;
 
     public ComponentConnectAgentList(){
 
@@ -43,7 +47,9 @@ public class ComponentConnectAgentList  extends JPanel{
         //JSeparator sp = new JSeparator(JSeparator.HORIZONTAL);
         //this.add(sp);
 
-        ZebraJList<String> zl =new ZebraJList<String>(new String[]{"aa","bb","ss","ss","ee","ss","ss","ss","ss","ss","ss","ss"});
+        list= new DefaultListModel();
+
+        ZebraJList<String> zl =new ZebraJList<String>(list);
         zl.setVisibleRowCount(20);
 
         /*zl.setSelectionModel(new DefaultListSelectionModel() {
@@ -64,6 +70,10 @@ public class ComponentConnectAgentList  extends JPanel{
         //mainPanel.add(zl);
         this.add(scrollList);
 
+    }
+
+    public void addMessage(String m){
+        list.addElement(m);
     }
 
 }
